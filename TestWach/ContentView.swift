@@ -6,14 +6,31 @@
 //
 
 import SwiftUI
+import WatchConnectivity
+
+
+
 
 struct ContentView: View {
+    @ObservedObject private var connectivityManager = WatchConnectivityManager.shared
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
+            
+            Button{
+                WatchConnectivityManager.shared.send("Test")
+            }label: {
+                Text("Test")
+            }
+            
+            
+        }
+        .alert(item: $connectivityManager.notificationMessage) { message in
+             Alert(title: Text(message.text),
+                   dismissButton: .default(Text("Dismiss")))
         }
         .padding()
     }
